@@ -18,12 +18,12 @@ class IconTextArrow extends StatelessWidget {
       },
       child: Row(
         children: [
-          Icon(icon ?? Icons.abc),
+          Icon(icon ?? Icons.circle),
           const SizedBox(width: 20,),
           CommonText(text: text),
           const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.keyboard_arrow_down),
+          const IconButton(
+            icon: Icon(Icons.keyboard_arrow_down),
             onPressed: null,
             splashColor: Colors.blue,
           )

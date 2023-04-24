@@ -1,15 +1,22 @@
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:newapp/utils/AppConst.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'Pages/navpages/main_page.dart';
 import 'dart:async';
 import 'dart:io' as IO;
 import 'api_helper/rest_client.dart';
+import 'firebase_options.dart';
 
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setPathUrlStrategy();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -49,9 +56,11 @@ Future<RestClient?> getRestClient() async {
     RestClient _client;
 
     // Print request and response log (Remove comment if need to print api log)
-    _dio.interceptors.add(
-        LogInterceptor(
-            requestHeader: true, requestBody: true));
+    if(kDebugMode) {
+      _dio.interceptors.add(
+          LogInterceptor(
+              requestHeader: true, requestBody: true));
+    }
 
     // Add header with Dio object
     if (_token.isNotEmpty) {

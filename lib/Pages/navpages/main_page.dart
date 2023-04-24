@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:newapp/Pages/navpages/Book_page.dart';
 import 'package:newapp/Pages/navpages/Home_Page.dart';
-import 'package:newapp/Pages/navpages/Services_page.dart';
+import 'package:newapp/Pages/navpages/Vehicle_page.dart';
 import 'package:newapp/Pages/navpages/FAQ_Page.dart';
-import 'package:newapp/menu/HomeMenu.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'CourierPage.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -15,14 +15,15 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
   List pages = [
     const HomePage(),
     Book(),
-   const ServicesPage(),
+    const VehiclePage(),
+    CourierPage(),
     FAQPage(),
-
-
   ];
+
   int currenIndex=0;
   void onTap(int index){
     setState(() {
@@ -55,51 +56,67 @@ class _MainPageState extends State<MainPage> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-          appBar:
-          AppBar(
-            backgroundColor: Colors.lightBlue,
-            title: const Text('Ready To Move',style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),),
-            centerTitle: true,
-            leading: const Padding(
-              padding: EdgeInsets.fromLTRB(6, 6, 6, 6),
-              child: InkWell(
-                child: CircleAvatar(
+        appBar:
+        AppBar(
+          backgroundColor: Colors.teal,
+          title: const Text('Radha Rani Moves',style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),),
+          centerTitle: true,
+          leading: const Padding(
+            padding: EdgeInsets.fromLTRB(6, 6, 6, 6),
+            child: InkWell(
+              child: CircleAvatar(
 
-                  backgroundImage: AssetImage('assets/img/MoveManager.jpg'), // Replace with your logo image path
-                ),
-
+                backgroundImage: AssetImage('assets/img/MoveManager.jpg'), // Replace with your logo image path
               ),
+
             ),
-            actions: <Widget>[
-              HomeMenu()
-            ],
           ),
+
+
+          actions: <Widget>[
+            IconButton(
+                icon: const Icon(Icons.email),
+                color: Colors.white,
+                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+                onPressed: () async {
+                  _mailTo();
+                }
+            ),
+            IconButton(
+              icon: const Icon(Icons.call),color: Colors.white,
+              onPressed: () {
+                _openWhatsAppChat();
+              },
+            ),
+          ],
+        ),
 
         backgroundColor: Colors.white,
         body: pages[currenIndex],
         bottomNavigationBar: BottomNavigationBar(
           // unselectedFontSize: 0,
           // selectedFontSize: 0,
-          type:
+            type:
             BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          onTap: onTap,
-          currentIndex: currenIndex,
-          // selectedItemColor: Colors.black54,
-          //   unselectedItemColor: Colors.grey.withOpacity(0.5),
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          elevation: 0,
-          items: const [
-            BottomNavigationBarItem(label: 'Home',icon: Icon(Icons.home_work)),
-            BottomNavigationBarItem(label: 'Book',icon: Icon(Icons.quick_contacts_dialer)),
-            BottomNavigationBarItem(label: 'Vehicle',icon: Icon(Icons.fire_truck_rounded)),
-            BottomNavigationBarItem(label: 'FAQ',icon: Icon(Icons.question_answer)),
-          ]
+            backgroundColor: Colors.white,
+            onTap: onTap,
+            currentIndex: currenIndex,
+            // selectedItemColor: Colors.black54,
+            //   unselectedItemColor: Colors.grey.withOpacity(0.5),
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            elevation: 0,
+            items: const [
+              BottomNavigationBarItem(label: 'Home',icon: Icon(Icons.home_work)),
+              BottomNavigationBarItem(label: 'Book',icon: Icon(Icons.quick_contacts_dialer)),
+              BottomNavigationBarItem(label: 'Vehicle',icon: Icon(Icons.fire_truck_rounded)),
+              BottomNavigationBarItem(label: 'Courier',icon: Icon(Icons.emoji_transportation)),
+              BottomNavigationBarItem(label: 'FAQ',icon: Icon(Icons.question_answer)),
+            ]
         ),
 
       ),

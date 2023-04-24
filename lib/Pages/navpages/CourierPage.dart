@@ -1,70 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:newapp/Pages/navpages/Home_Page.dart';
-import 'package:newapp/utils/AppConst.dart';
+
 import '../../api_helper/network_helper.dart';
 import '../../api_helper/rest_client.dart';
 import '../../dialogs/DialogAlert.dart';
 import '../../main.dart';
 import '../../model/BookingData.dart';
-import 'main_page.dart';
+import '../../utils/AppConst.dart';
 
-class Book extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          flexibleSpace: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: const [
-          TabBar(tabs: [
-            Tab(
-              child: Text(AppConst.INTERCITY),
-            ),
-            Tab(
-              child: Text(AppConst.INTRA_CITY),
-            ),
-            Tab(
-              child: Text(AppConst.INTERNATIONAL),
-            ),
-          ]),
-        ],
-      )),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: TabBarView(children: [
-          BookPageChild(AppConst.INTERCITY),
-          BookPageChild(AppConst.INTRA_CITY),
-          BookPageChild(AppConst.INTERNATIONAL),
-        ]),
-      ),
-    );
-  }
-}
+ class CourierPage extends StatelessWidget {
 
-class BookPageChild extends StatelessWidget {
+   final _formKey = GlobalKey<FormState>();
+   final TextEditingController _nameController = TextEditingController();
+   final TextEditingController _emailController = TextEditingController();
+   final TextEditingController _phoneController = TextEditingController();
+   final TextEditingController _pickUpDateController = TextEditingController();
+   final TextEditingController _moveFromController = TextEditingController();
+   final TextEditingController _moveToController = TextEditingController();
+   final TextEditingController _detailsController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _pickUpDateController = TextEditingController();
-  final TextEditingController _moveFromController = TextEditingController();
-  final TextEditingController _moveToController = TextEditingController();
-  final TextEditingController _detailsController = TextEditingController();
+   var type = AppConst.COURIER;
 
-  var type = AppConst.INTERCITY;
+   late DateTime _selectedDate = DateTime.now();
 
-  late DateTime _selectedDate = DateTime.now();
-
-  final maxLinesDetails = 5;
-
-  BookPageChild(this.type);
+   final maxLinesDetails = 5;
 
   @override
   Widget build(BuildContext context) {
+
     _pickUpDateController.text = _selectedDate != null
         ? "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}"
         : '';
+
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -79,8 +45,9 @@ class BookPageChild extends StatelessWidget {
                 decoration: const BoxDecoration(
                   shape: BoxShape.rectangle,
                   gradient: LinearGradient(colors: [
-                    Colors.orange,
+                    Colors.purpleAccent,
                     Colors.white54,
+
                   ], stops: [
                     0.4,
                     1.0,
@@ -266,7 +233,7 @@ class BookPageChild extends StatelessWidget {
                         controller: _pickUpDateController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter moving date';
+                            return 'Please enter pickup date';
                           }
                           return null;
                         },
@@ -283,7 +250,7 @@ class BookPageChild extends StatelessWidget {
                   child: TextFormField(
                     controller: _moveFromController,
                     decoration: InputDecoration(
-                      labelText: 'Move From (Your Address)',
+                      labelText: 'Pickup From',
                       labelStyle: const TextStyle(
                         color: Colors.grey,
                         fontSize: 15,
@@ -320,7 +287,7 @@ class BookPageChild extends StatelessWidget {
                   child: TextFormField(
                     controller: _moveToController,
                     decoration: InputDecoration(
-                      labelText: 'Move To (Your Destination)',
+                      labelText: 'Drop To',
                       labelStyle: const TextStyle(
                         color: Colors.grey,
                         fontSize: 15,
@@ -342,7 +309,7 @@ class BookPageChild extends StatelessWidget {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please Enter Your Destination)';
+                        return 'Please Enter Drop Point)';
                       }
                       return null;
                     },
@@ -412,7 +379,7 @@ class BookPageChild extends StatelessWidget {
                     // Set button padding
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(18), // Set button border radius
+                      BorderRadius.circular(18), // Set button border radius
                     ),
                   ),
                   child: const Text('Submit'),
@@ -424,40 +391,42 @@ class BookPageChild extends StatelessWidget {
             ],
           ),
         ),
+
       ),
     );
   }
 
-  _submitForm(BookingData request, BuildContext context) {
-    RestClient? client;
-    NetworkHelper? networkHelper;
-    getRestClient().then((data) {
-      client = data;
-      networkHelper = NetworkHelper(client!, context);
-      networkHelper?.newBooking(request, (bool success) async {
-        _openBookingSuccessDialog(context);
-      });
-    });
-  }
+   _submitForm(BookingData request, BuildContext context) {
+     RestClient? client;
+     NetworkHelper? networkHelper;
+     getRestClient().then((data) {
+       client = data;
+       networkHelper = NetworkHelper(client!, context);
+       networkHelper?.newBooking(request, (bool success) async {
+         _openBookingSuccessDialog(context);
+       });
+     });
+   }
 
-  _openBookingSuccessDialog(BuildContext context) {
-    showGeneralDialog(
-      context: context,
-      pageBuilder: (ctx, a1, a2) {
-        return Container();
-      },
-      transitionBuilder: (ctx, a1, a2, child) {
-        var curve = Curves.easeInOut.transform(a1.value);
-        return Transform.scale(
-          scale: curve,
-          child: DialogAlert(
-            onDoneClick: () {
-              Navigator.pop(context);
-            },
-          ),
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 300),
-    );
-  }
+   _openBookingSuccessDialog(BuildContext context) {
+     showGeneralDialog(
+       context: context,
+       pageBuilder: (ctx, a1, a2) {
+         return Container();
+       },
+       transitionBuilder: (ctx, a1, a2, child) {
+         var curve = Curves.easeInOut.transform(a1.value);
+         return Transform.scale(
+           scale: curve,
+           child: DialogAlert(
+             onDoneClick: () {
+               Navigator.pop(context);
+             },
+           ),
+         );
+       },
+       transitionDuration: const Duration(milliseconds: 300),
+     );
+   }
+
 }

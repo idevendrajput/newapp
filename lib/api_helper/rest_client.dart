@@ -21,7 +21,7 @@ abstract class RestClient {
   @POST("slider/get")
   Future<BaseResponseWithList<SliderData>?> sliderList();
 
-  @POST("help/get/page={page}")
+  @POST("help/get/page=1")
   Future<BaseResponseWithList<HelpPageData>?> helpsPage();
 
 }

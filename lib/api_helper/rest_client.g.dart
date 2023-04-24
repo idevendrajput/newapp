@@ -85,7 +85,7 @@ class _RestClient implements RestClient {
     )
             .compose(
               _dio.options,
-              'help/get/page={page}',
+              'help/get/page=1',
               queryParameters: queryParameters,
               data: _data,
             )
