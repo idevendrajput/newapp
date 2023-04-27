@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> {
         appBar:
         AppBar(
           backgroundColor: Colors.teal,
-          title: const Text('Radha Rani Moves',style: TextStyle(
+          title: const Text('Ready To Move',style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -70,7 +70,7 @@ class _MainPageState extends State<MainPage> {
             child: InkWell(
               child: CircleAvatar(
 
-                backgroundImage: AssetImage('assets/img/MoveManager.jpg'), // Replace with your logo image path
+                backgroundImage: AssetImage('assets/img/logo.png'), // Replace with your logo image path
               ),
 
             ),

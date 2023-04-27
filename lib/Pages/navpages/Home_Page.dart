@@ -153,7 +153,7 @@ class _HomePageState extends BaseState<HomePage> {
               child: Column(
                 children: const [
                   Text(
-                    "How VRL Movers Team Work?",
+                    "How Ready To Move Team Work?",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24.0,
@@ -360,7 +360,7 @@ class _HomePageState extends BaseState<HomePage> {
               child: Column(
                 children: const [
                   Text(
-                    "Why VRL Movers and Packers?",
+                    "Why 'Ready To Move'?",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24.0,

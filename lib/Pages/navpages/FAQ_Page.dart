@@ -102,7 +102,7 @@ class _FAQPageState extends BaseState<FAQPage> {
                 },
                 {
                   'question':
-                  'CITIES WHERE VRL PROVIDES VRL CARGO PACKERS AND MOVERS SERVICES',
+                  'CITIES WHERE READY TO MOVE PROVIDE PACKERS AND MOVERS SERVICES',
                   'answer':
                   'We Provide All Over India Moving Service With 500+ Pan Branches Held all around India'
                 },
