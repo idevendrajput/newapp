@@ -5,6 +5,7 @@ import 'package:newapp/Pages/navpages/Vehicle_page.dart';
 import 'package:newapp/Pages/navpages/FAQ_Page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'Call.dart';
 import 'CourierPage.dart';
 
 class MainPage extends StatefulWidget {
@@ -31,26 +32,32 @@ class _MainPageState extends State<MainPage> {
     });
 
   }
-  void _mailTo()async {
-    String email = 'sagasbaba55@gmail.com';
-    var mailUrl = 'mailto:$email';
-    if ( await canLaunch(mailUrl)){
-      await launch(mailUrl);
+  void _launchEmail() async {
+    final Uri _emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: 'example@example.com',
+    );
+    if (await canLaunchUrl(_emailLaunchUri)) {
+      await launchUrl(_emailLaunchUri);
     } else {
-      print('Error');
-      throw 'Error occured';
+      throw 'Could not launch $_emailLaunchUri';
     }
   }
-  void _openWhatsAppChat()async {
-    String phoneNumber = '+91 9983707875';
-    var Url = 'https://wa.me/$phoneNumber?text=HelloTeam';
-    if ( await canLaunch(Url)){
-      await launch(Url);
+
+  void _launchWhatsApp({required String phone, required String message}) async {
+    final Uri _whatsAppLaunchUri = Uri(
+      scheme: 'https',
+      host: 'wa.me',
+      path: '$phone/?text=${Uri.encodeFull(message)}',
+    );
+    if (await canLaunchUrl(_whatsAppLaunchUri)) {
+      await launchUrl(_whatsAppLaunchUri);
     } else {
-      print('Error');
-      throw 'Error occured';
+      throw 'Could not launch $_whatsAppLaunchUri';
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -78,20 +85,128 @@ class _MainPageState extends State<MainPage> {
 
 
           actions: <Widget>[
-            IconButton(
-                icon: const Icon(Icons.email),
-                color: Colors.white,
-                padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-                onPressed: () async {
-                  _mailTo();
-                }
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    _launchWhatsApp(phone: '1234567890', message: 'Hello');
+                  },
+                  child: Image.asset(
+                    'assets/img/whatsapp.png', // Replace with your image asset path
+                    width: 25,
+                    height: 25,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    _launchEmail();
+                  },
+                  child:Image.asset(
+                    'assets/img/email.png', // Replace with your image asset path
+                    width: 25,
+                    height: 25,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Padding(
+                  padding: const EdgeInsets.only(right: 7),
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const CallDialog(number1: '+919660991679', number2: '+918059191751');
+                        },
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/img/call.png', // Replace with your image asset path
+                      width: 25,
+                      height: 25,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            IconButton(
-              icon: const Icon(Icons.call),color: Colors.white,
-              onPressed: () {
-                _openWhatsAppChat();
-              },
-            ),
+
+            // Row(
+            //   children: [
+            //     GestureDetector(
+            //       onTap: () async {
+            //         final Uri _whatsappLaunchUri = Uri(
+            //           scheme: 'https',
+            //           host: 'wa.me',
+            //           path: '/+919660991679', // Replace with your WhatsApp number
+            //         );
+            //
+            //         if (await canLaunch(_whatsappLaunchUri.toString())) {
+            //           await launch(_whatsappLaunchUri.toString());
+            //         } else {
+            //           throw 'Could not launch ${_whatsappLaunchUri.toString()}';
+            //         }
+            //       },
+            //       child: Image.asset(
+            //         'assets/img/whatsapp.png', // Replace with your image asset path
+            //         width: 25,
+            //         height: 25,
+            //       ),
+            //     ),
+            //     const SizedBox(width: 10), // Add some spacing between icons
+            //     GestureDetector(
+            //       onTap: () async {
+            //         final Uri _emailLaunchUri = Uri(
+            //           scheme: 'mailto',
+            //           path: 'team@readyinmove.com',
+            //         );
+            //
+            //         if (await canLaunch(_emailLaunchUri.toString())) {
+            //           await launch(_emailLaunchUri.toString());
+            //         } else {
+            //           throw 'Could not launch ${_emailLaunchUri.toString()}';
+            //         }
+            //       },
+            //       child: Image.asset(
+            //         'assets/img/email.png', // Replace with your image asset path
+            //         width: 25,
+            //         height: 25,
+            //       ),
+            //     ),
+            //     const SizedBox(width: 10),
+            //     Padding(
+            //       padding: const EdgeInsets.only(right: 7),
+            //       child: GestureDetector(
+            //         onTap: () {
+            //           showDialog(
+            //             context: context,
+            //             builder: (BuildContext context) {
+            //               return const CallDialog(number1: '+919660991679', number2: '+918059191751');
+            //             },
+            //           );
+            //         },
+            //         child: Image.asset(
+            //           'assets/img/call.png', // Replace with your image asset path
+            //           width: 25,
+            //           height: 25,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+
+
+            // IconButton(
+            //   icon: const Icon(Icons.call),color: Colors.white,
+            //   onPressed: () {
+            //     showDialog(
+            //       context: context,
+            //       builder: (BuildContext context) {
+            //         return const CallDialog(number1: '+919660991679', number2: '+918059191751');
+            //       },
+            //     );
+            //   },
+            //
+            // ),
           ],
         ),
 
